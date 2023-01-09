@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+
+  my-app:
+    volumes:
+      - ../my-app:/app
+      - my-app-modules:/app/node_modules
+    ports:
+      - "5000:5000"
+    env_file:
+      - ../secrets/my-app.development
+    user: "${UID}:${GID}"
+    command: sh -c "npm install && npm run dev"
+    build:
+      target: development
+      args:
+        - UID=${UID}
+        - GID=${GID}
+
+volumes:
+  my-app-modules:

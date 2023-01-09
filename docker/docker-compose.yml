@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+
+  my-app:
+    container_name: my-app
+    hostname: my-app
+    build:
+      context: ../
+      dockerfile: docker/my-app.dockerfile
+    restart: unless-stopped
+    init: true
+    volumes:
+      - my-app-persistent:/persistent
+
+
+volumes:
+  my-app-persistent:

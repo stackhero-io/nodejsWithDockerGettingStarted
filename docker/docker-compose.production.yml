@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+
+  my-app:
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - ../secrets/my-app.production
+    user: "stackhero:stackhero"
+    command: sh -c "npm run start"
+    build:
+      target: production
+    labels:
+          - "traefik.enable=true" # Enable Traefik to route traffic to this container
+          - "traefik.http.routers.my-app.rule=Host(`XXXXXX.stackhero-network.com`)" # Defined host
+          - "traefik.http.routers.my-app.tls.certresolver=letsencrypt" # Use "letsencrypt" as TLS cert resolver
+          - "traefik.http.services.my-app.loadbalancer.server.port=5000"
